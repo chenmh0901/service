@@ -14,6 +14,13 @@ model User {
   id        Int        @id @default(autoincrement())
   name      String?
   password  String
+  email     String?
+  wechat    String?
+  QQ        String?
+  phone     String?
+  class     String?
+  room      String?
+  resume    String?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   Bookmark  Bookmark[]
