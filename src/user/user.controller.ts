@@ -15,6 +15,11 @@ export class UserController {
     return user;
   }
 
+  @Get('all')
+  getAll() {
+    return this.userService.getUserAll();
+  }
+
   @Patch(':no')
   async editUser(@Param('no') no: string, @Body() dto: UserDto) {
     return this.userService.editUser(no, dto);

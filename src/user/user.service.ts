@@ -18,4 +18,8 @@ export class UserService {
     delete user.password;
     return user;
   }
+
+  getUserAll() {
+    return this.prisma.user.findMany();
+  }
 }
