@@ -19,7 +19,11 @@ export class UserService {
     return user;
   }
 
-  getUserAll() {
-    return this.prisma.user.findMany();
+  async getUserAll() {
+    const users = await this.prisma.user.findMany();
+    return users.map((user) => {
+      delete user.password;
+      return user;
+    });
   }
 }
