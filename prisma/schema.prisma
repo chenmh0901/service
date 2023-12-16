@@ -11,20 +11,21 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  no        String     @unique
-  password  String
-  email     String?
-  name      String?
-  wechat    String?
-  QQ        String?
-  phone     String?
-  class     String?
-  room      String?
-  resume    String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  bookmarks Bookmark[]
+  id         Int       @id @default(autoincrement())
+  no         String    @unique
+  password   String
+  email      String?
+  name       String?
+  wechat     String?
+  QQ         String?
+  phone      String?
+  class      String?
+  room       String?
+  birthPlace String?
+  resume     String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  bookmarks  Bookmark[]
 
   @@map("users")
 }
