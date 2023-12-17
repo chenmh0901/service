@@ -34,4 +34,8 @@ export class UserDto {
   @IsString()
   @IsOptional()
   resume: string;
+
+  @IsString()
+  @IsOptional()
+  birthPlace: string;
 }

@@ -54,6 +54,7 @@ export class AuthService {
     id: number,
     no: string,
   ): Promise<{
+    detailFinished: boolean;
     access_token: string;
   }> {
     const payload = {
@@ -65,6 +66,25 @@ export class AuthService {
       expiresIn: '1d',
       secret,
     });
-    return { access_token: token };
+
+    let detailFinished = true;
+    const user = await this.prisma.user.findUnique({
+      where: { no },
+    });
+    const validatedFields = [
+      'name',
+      'QQ',
+      'wechat',
+      'phone',
+      'birthPlace',
+      'class',
+      'room',
+    ];
+    validatedFields.forEach((field) => {
+      if (!user[field]) {
+        detailFinished = false;
+      }
+    });
+    return { detailFinished, access_token: token };
   }
 }
