@@ -50,4 +50,8 @@ export class AuthDto {
   @IsString()
   @IsOptional()
   resume: string;
+
+  @IsString()
+  @IsOptional()
+  birthPlace: string;
 }
