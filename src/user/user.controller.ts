@@ -21,7 +21,14 @@ export class UserController {
   }
 
   @Patch(':no')
-  async editUser(@Param('no') no: string, @Body() dto: UserDto) {
+  async editUser(
+    @Param('no') no: string,
+    @Body() dto: UserDto,
+    @GetUser() user: User,
+  ) {
+    if (user.no !== no && !user.admin) {
+      return;
+    }
     return this.userService.editUser(no, dto);
   }
 }

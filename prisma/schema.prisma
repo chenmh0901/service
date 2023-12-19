@@ -11,9 +11,10 @@ datasource db {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  no         String    @unique
+  id         Int      @id @default(autoincrement())
+  no         String   @unique
   password   String
+  admin      Boolean  @default(false)
   email      String?
   name       String?
   wechat     String?
@@ -23,8 +24,8 @@ model User {
   room       String?
   birthPlace String?
   resume     String?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
   bookmarks  Bookmark[]
 
   @@map("users")
