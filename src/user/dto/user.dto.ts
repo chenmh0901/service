@@ -1,11 +1,24 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
 
 export class UserDto {
+  @IsBoolean()
+  @IsOptional()
+  isAdmin: boolean;
+
+  @IsString()
+  @IsNotEmpty()
+  @Length(6, 20)
+  no: string;
+
   @IsString()
   @IsEmail()
   @IsNotEmpty()
   @IsOptional()
   email: string;
+
+  @IsString()
+  @IsOptional()
+  sex: string;
 
   @IsString()
   @IsOptional()
@@ -21,21 +34,33 @@ export class UserDto {
 
   @IsString()
   @IsOptional()
-  QQ: string;
+  qq: string;
 
   @IsString()
   @IsOptional()
-  class: string;
+  className: string;
 
   @IsString()
   @IsOptional()
-  room: string;
+  roomName: string;
 
   @IsString()
   @IsOptional()
-  resume: string;
+  selfResume: string;
+
+  @IsString()
+  @IsOptional()
+  adminResume: string;
 
   @IsString()
   @IsOptional()
   birthPlace: string;
+
+  @IsString()
+  @IsOptional()
+  birthday: string;
+
+  @IsString()
+  @IsOptional()
+  avatarUrl: string;
 }

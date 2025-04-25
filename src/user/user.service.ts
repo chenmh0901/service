@@ -4,12 +4,12 @@ import { UserDto } from './dto';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
-  async editUser(no: string, dto: UserDto) {
+  async editUser(id: number, dto: UserDto) {
     const user = await this.prisma.user.update({
       where: {
-        no: no,
+        id: id,
       },
       data: {
         ...dto,
@@ -25,5 +25,27 @@ export class UserService {
       delete user.password;
       return user;
     });
+  }
+
+  async getUser(id: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    delete user.password;
+    return user;
+  }
+
+  async updateUserAvatar(userId: number, avatarPath: string) {
+    const user = await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        avatarUrl: avatarPath,
+      },
+    });
+    return user;
   }
 }

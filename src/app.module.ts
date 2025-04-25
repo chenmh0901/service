@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { BookmarkModule } from './bookmark/bookmark.module';
+import { MessageModule } from './message/message.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { MulterModule } from '@nestjs/platform-express';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
@@ -10,8 +11,11 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({}),
     AuthModule,
     UserModule,
-    BookmarkModule,
+    MessageModule,
     PrismaModule,
+    MulterModule.register({
+      dest: './uploads',
+    }),
   ],
 })
-export class AppModule {}
+export class AppModule { }

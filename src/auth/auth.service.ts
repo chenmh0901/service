@@ -12,7 +12,7 @@ export class AuthService {
     private prisma: PrismaService,
     private jwt: JwtService,
     private config: ConfigService,
-  ) {}
+  ) { }
 
   async signup(dto: AuthDto) {
     const hash = await argon.hash(dto.password);
@@ -41,7 +41,6 @@ export class AuthService {
     if (!user) {
       throw new ForbiddenException('Credentials not found');
     }
-
     const matches = await argon.verify(user.password, dto.password);
     if (!matches) {
       throw new ForbiddenException('Credentials incorrect');
@@ -73,12 +72,14 @@ export class AuthService {
     });
     const validatedFields = [
       'name',
-      'QQ',
+      'qq',
       'wechat',
       'phone',
       'birthPlace',
-      'class',
-      'room',
+      'className',
+      'roomName',
+      'selfResume',
+      'adminResume'
     ];
     validatedFields.forEach((field) => {
       if (!user[field]) {
