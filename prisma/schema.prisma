@@ -21,43 +21,54 @@ model Auth {
 }
 
 model User {
-  id        Int     @id @default(autoincrement()) // 主键，用户ID
+  id        Int       @id @default(autoincrement()) // 主键，用户ID
   name      String? // 用户姓名
   nickname  String? // 昵称
-  account   Int?    @unique // 账号名，暂时是手机号
+  account   Int?      @unique // 账号名，暂时是手机号
   password  String? // 密码
   avatarUrl String? // 头像地址
   email     String? // 邮箱号
-  sex       Int?    @default(0) // 性别，0表示男，1表示女
+  sex       Int?      @default(0) // 性别，0表示男，1表示女
   aiChatId  Int? // aiChatId
   stories   Story[] // 关联Story表
-  aiChat    AiChat? @relation(fields: [aiChatId], references: [id])
-  auth      Auth?   @relation("UserAuth") // 关联 auth 表
+  aiChat    AiChat?   @relation(fields: [aiChatId], references: [id])
+  auth      Auth?     @relation("UserAuth") // 关联 auth 表
+  createdAt DateTime  @default(now()) // 创建时间
+  updatedAt DateTime  @updatedAt // 更新时间
+  Comment   Comment[]
 }
 
 model Story {
-  id        Int      @id @default(autoincrement()) // 主键，日记ID
+  id        Int       @id @default(autoincrement()) // 主键，日记ID
   from      Int? // 外键，用户ID
   like      Int? // 点赞数
-  commentId Int? // 外键，评论ID
-  user      User?    @relation(fields: [from], references: [id])
-  comment   Comment? @relation(fields: [commentId], references: [id])
+  user      User?     @relation(fields: [from], references: [id])
+  content   String? // 日记内容
+  comments  Comment[]
+  createdAt DateTime  @default(now()) // 创建时间
+  updatedAt DateTime  @updatedAt // 更新时间
 }
 
 model Comment {
-  id        Int      @id @default(autoincrement()) // 主键，评论ID
-  comment   String? // 评论内容
+  id      Int     @id @default(autoincrement()) // 主键，评论ID
+  comment String? // 评论内容
+  storyId Int? // 外键，日记ID
+  story   Story?  @relation(fields: [storyId], references: [id]) // 关联Story表
+  userId  Int? // 外键，用户ID
+  user    User?   @relation(fields: [userId], references: [id])
+
   createdAt DateTime @default(now()) // 创建时间
   updatedAt DateTime @updatedAt // 更新时间
-  stories   Story[] // 关联Story表
 }
 
 model HotPlace {
-  id        Int     @id @default(autoincrement()) // 主键，地点ID
+  id        Int      @id @default(autoincrement()) // 主键，地点ID
   location  String? // 热门地点
   recommend Int? // 推荐数
   visit     Int? // 访问数
   like      Int? // 点赞数
+  createdAt DateTime @default(now()) // 创建时间
+  updatedAt DateTime @updatedAt // 更新时间
 }
 
 model AiChat {
