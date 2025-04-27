@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
-import { join } from 'path';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
@@ -11,10 +10,9 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
-  app.useStaticAssets(join(__dirname, '..', 'uploads'), {
-    prefix: '/uploads',
-  });
   await app.listen(9001);
+
+  new Logger('NestApplication').log('Server is running on port 9001');
 }
 
 bootstrap();

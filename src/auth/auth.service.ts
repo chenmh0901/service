@@ -36,7 +36,7 @@ export class AuthService {
 
   async signin(dto: AuthDto) {
     const user = await this.prisma.user.findUnique({
-      where: { no: dto.no },
+      where: { account: dto.account },
     });
     if (!user) {
       throw new ForbiddenException('Credentials not found');
@@ -46,19 +46,18 @@ export class AuthService {
       throw new ForbiddenException('Credentials incorrect');
     }
 
-    return this.signToken(user.id, user.no);
+    return this.signToken(user.id, user.account);
   }
 
   async signToken(
     id: number,
-    no: string,
+    account: number,
   ): Promise<{
-    detailFinished: boolean;
     access_token: string;
   }> {
     const payload = {
       sub: id,
-      no: no,
+      account: account,
     };
     const secret = this.config.get('JWT_SECRET');
     const token = await this.jwt.signAsync(payload, {
@@ -66,26 +65,6 @@ export class AuthService {
       secret,
     });
 
-    let detailFinished = true;
-    const user = await this.prisma.user.findUnique({
-      where: { no },
-    });
-    const validatedFields = [
-      'name',
-      'qq',
-      'wechat',
-      'phone',
-      'birthPlace',
-      'className',
-      'roomName',
-      'selfResume',
-      'adminResume'
-    ];
-    validatedFields.forEach((field) => {
-      if (!user[field]) {
-        detailFinished = false;
-      }
-    });
-    return { detailFinished, access_token: token };
+    return { access_token: token };
   }
 }

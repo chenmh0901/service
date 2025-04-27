@@ -10,11 +10,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Auth {
+  id        Int      @id @default(autoincrement()) // 主键，用户ID
+  account   Int?     @unique // 账号名，暂时是手机号
+  password  String? // 密码
+  userId    Int?     @unique
+  user      User?    @relation("UserAuth", fields: [userId], references: [id])
+  createdAt DateTime @default(now()) // 创建时间
+  updatedAt DateTime @updatedAt // 更新时间
+}
+
 model User {
   id        Int     @id @default(autoincrement()) // 主键，用户ID
   name      String? // 用户姓名
   nickname  String? // 昵称
-  account   Int? // 账号名，暂时是手机号
+  account   Int?    @unique // 账号名，暂时是手机号
   password  String? // 密码
   avatarUrl String? // 头像地址
   email     String? // 邮箱号
@@ -22,6 +32,7 @@ model User {
   aiChatId  Int? // aiChatId
   stories   Story[] // 关联Story表
   aiChat    AiChat? @relation(fields: [aiChatId], references: [id])
+  auth      Auth?   @relation("UserAuth") // 关联 auth 表
 }
 
 model Story {
